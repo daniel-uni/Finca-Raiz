@@ -1,5 +1,6 @@
 <?php
 
+use App\Global\GlobalValue;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,12 +14,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create(GlobalValue::TABLE_USER, function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string(GlobalValue::USER_NAME);
+            $table->string(GlobalValue::USER_EMAIL)->unique();
+            $table->timestamp(GlobalValue::USER_EMAIL_VERIFICATE_AT)->nullable();
+            $table->string(GlobalValue::USER_PASSWORD);
+            $table->string(GlobalValue::USER_ADDRESS)->nullable();
+            $table->string(GlobalValue::USER_PHONE)->nullable();
+            $table->boolean(GlobalValue::USER_VALIDATE);
             $table->rememberToken();
             $table->timestamps();
         });
@@ -31,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists(GlobalValue::TABLE_USER);
     }
 };

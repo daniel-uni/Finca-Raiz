@@ -24,6 +24,7 @@ Route::prefix('v1')->group(function () {
     Route::controller(AuthApiController::class)->prefix('auth')->group(function () {
         Route::post('','authenticate');
         Route::post('me','getAuthenticatedUser')->middleware('jwt.verify');
+        Route::post('resset', 'resetPassword');
     });
     
     Route::controller(UserApiController::class)->prefix('user')->group(function () {

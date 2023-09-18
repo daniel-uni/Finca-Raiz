@@ -18,11 +18,20 @@ class UserRepository
 
     public function createUser(RegisterRequest $request): User
     {
-        return $this->model::create([
-            'name' => $request->get('name'),
-            'email' => $request->get('email'),
-            'password' => Hash::make($request->get('password'))
-        ]);
+        $user = new User();
+        $user[GlobalValue::USER_NAME] = $request->name;
+        $user[GlobalValue::USER_EMAIL] = $request->email;
+        $user[GlobalValue::USER_PASSWORD] = Hash::make($request->password);
+        $user[GlobalValue::USER_VALIDATE] = false;
+        $user[GlobalValue::USER_ROL] = 2;
+        $user->save();
+        return $user;
+        
+        // return $this->model::create([
+        //     'name' => $request->get('name'),
+        //     'email' => $request->get('email'),
+        //     'password' => Hash::make($request->get('password'))
+        // ]);
     }
 
     public function validateUserExist(string $email): bool

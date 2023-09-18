@@ -15,16 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
 Route::prefix('v1')->group(function () {
 
     Route::controller(AuthApiController::class)->prefix('auth')->group(function () {
         Route::post('','authenticate');
         Route::post('me','getAuthenticatedUser')->middleware('jwt.verify');
         Route::post('resset', 'resetPassword');
+        Route::post('validate-code', 'validateCodeResset');
+        Route::post('resset-update', 'updatePasswordResset');
     });
     
     Route::controller(UserApiController::class)->prefix('user')->group(function () {

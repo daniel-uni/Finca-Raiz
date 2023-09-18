@@ -30,4 +30,9 @@ class RessetPasswordRepository
     {
         return Resset::where('email', $email)->first();
     }
+
+    public function deleteRecoveryByEmailAndCode(string $email)
+    {
+        return Resset::where('email', $email)->delete();
+    }
 }

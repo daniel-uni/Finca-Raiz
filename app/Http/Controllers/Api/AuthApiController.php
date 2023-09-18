@@ -84,7 +84,7 @@ class AuthApiController extends Controller implements AuthApiControllerInterface
 
     public function validateCodeResset(CodeRequest $request):JsonResponse
     {
-        $recovery = $this->ressetPasswordRepository->getRecoveryByEmailAndCode($request['email'], $request['code']);
+        $recovery = $this->ressetPasswordRepository->getRecoveryByEmailAndCode($request['email'], strval($request['code']));
         if ($recovery) {
             $response = ResponseHttp::responseSuccess(['message' => "resset of password success"], 200);
         } else {
@@ -98,7 +98,7 @@ class AuthApiController extends Controller implements AuthApiControllerInterface
         $user = $this->userRepository->getUserByEmail($request['email']);
         if ($user) {
             $recovery = $this->ressetPasswordRepository->getRecoveryByEmail($request['email']);
-            $recovery->delete();
+            $this->ressetPasswordRepository->deleteRecoveryByEmailAndCode($request['email']);
             $this->userRepository->updatePassword($user, $request['password']);
             $response = ResponseHttp::responseSuccess(['message' => "resset of password success"], 200);
         } else {
